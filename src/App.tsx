@@ -15,7 +15,10 @@ function App() {
             {id: v1(), title: "ReactJS", isDone: false},
             {id: v1(), title: "Redux", isDone: true},
         ]
-    )
+    );
+    const changeCheckBox = (taskID: string, newIsDone: boolean) => {
+        setTask(task.map(el => el.id === taskID ? {...el, isDone: newIsDone} : el))
+    }
     const removeTask = (num: string) => {
         setTask(task.filter((el) => el.id !== num))
         console.log(num)
@@ -68,6 +71,7 @@ function App() {
                       task={task}
                       removeTask={removeTask}
                       addTask={addTask}
+                      changeCheckBox={changeCheckBox}
             />
             {/*<Todolist title="Songs" tasks={task2}/>*/}
 
