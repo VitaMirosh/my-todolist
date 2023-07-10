@@ -1,11 +1,11 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {useState} from "react";
 import s from './Todolist.module.css'
 import {FilterValueType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {Delete, Favorite, FavoriteBorder} from "@material-ui/icons";
-
+import {Paper} from "@material-ui/core";
 
 
 export type TaskType = {
@@ -59,12 +59,15 @@ export const Todolist = (props: PropsTask) => {
     }
 
     return (
+        <Paper>
         <div>
             <h3>
                 <EditableSpan title={props.title} onChange={changeTodoListTitle}/>
-                <IconButton onClick={removeTodoListHandler}>
+                <IconButton
+                    color = {"secondary"}
+                    onClick={removeTodoListHandler}>
                     <Delete/>
-                    </IconButton>
+                </IconButton>
             </h3>
             <AddItemForm addItem={addTask} maxLenghtMessage={maxLenghtMessage}/>
             <ul>
@@ -75,11 +78,13 @@ export const Todolist = (props: PropsTask) => {
 
                         }
                         return <div key={el.id} className={el.isDone ? s.isDoneStyle : ''}>
-                            <IconButton onClick={() => props.removeTask(props.todoListId, el.id)}>
+                            <IconButton
+                                color = {"primary"}
+                                onClick={() => props.removeTask(props.todoListId, el.id)}>
                                 <Delete/>
                             </IconButton>
-                            <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />}  checked={el.isDone}
-                                   onChange={(event) => changeCheckBoxHundler(props.todoListId, el.id, event.currentTarget.checked)}/>
+                            <Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} checked={el.isDone}
+                                      onChange={(event) => changeCheckBoxHundler(props.todoListId, el.id, event.currentTarget.checked)}/>
                             <EditableSpan title={el.title}
                                           onChange={onChangeTitleHandler}/>
 
@@ -89,14 +94,18 @@ export const Todolist = (props: PropsTask) => {
 
             </ul>
             <div>
-                <Button variant={buttonName === 'ALL' ? 'contained' : 'text'} onClick={onAllClickHandler}>All</Button>
-                <Button color={'primary'} variant={buttonName === 'ACTIVE' ? 'contained' : 'text'}
-                        onClick={onActiveClickHandler}>Active
-                </Button>
-                <Button color={'secondary'} variant={buttonName === 'COMPLETED' ? 'contained' : 'text'}
-                        onClick={onCompletedClickHandler}>Completed
-                </Button>
+                <Button
+                    variant={buttonName === 'ALL' ? 'contained' : 'text'} size={"small"}
+                    onClick={onAllClickHandler}>All</Button>
+                <Button
+                    color={'primary'}
+                    variant={buttonName === 'ACTIVE' ? 'contained' : 'text'}
+                    onClick={onActiveClickHandler}>Active</Button>
+                <Button color={'secondary'}
+                        variant={buttonName === 'COMPLETED' ? 'contained' : 'text'}
+                        onClick={onCompletedClickHandler}>Completed</Button>
             </div>
         </div>
+        </Paper>
     )
 }

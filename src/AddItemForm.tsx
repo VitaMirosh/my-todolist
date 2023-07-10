@@ -1,6 +1,5 @@
-import {Button, IconButton, TextField} from "@material-ui/core";
+import { IconButton, TextField} from "@material-ui/core";
 import React, {ChangeEvent, FC, KeyboardEvent, useState} from "react";
-import s from "./Todolist.module.css";
 import {ControlPoint} from "@material-ui/icons";
 
 export type AddItemFormPropsType = {
@@ -56,8 +55,8 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({
                    error={!!error}
                    helperText={error}
         />
-        <IconButton disabled={isAddBtnDisabled} onClick={addTask} color={'primary'}>
-            <ControlPoint/>
+        <IconButton disabled={isAddBtnDisabled} onClick={addTask} color={'primary'} >
+            <ControlPoint />
         </IconButton>
         {userMaxLenghtMessage}
 

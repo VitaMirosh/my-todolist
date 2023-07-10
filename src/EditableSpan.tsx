@@ -23,7 +23,7 @@ export const EditableSpan: FC< EditablePropsType> = ({
     };
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setLocalTitle(e.currentTarget.value)
     return editMode
-        ? <TextField value={localTitle} onChange={onChangeTitle} onBlur={activateViewMode} autoFocus/>
+        ? <TextField value={localTitle}  onChange={onChangeTitle} onBlur={activateViewMode} autoFocus/>
         :
         <span onDoubleClick={activateEditMode}>{title}</span>
 }
