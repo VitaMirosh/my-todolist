@@ -57,7 +57,6 @@ function AppWithRedux() {
 
     const removeTodoList = (todoListId: string) => {
         const action = removeTodolistAC(todoListId)
-
         dispatch(action)
     }
 
