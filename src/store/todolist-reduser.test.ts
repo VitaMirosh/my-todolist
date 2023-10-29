@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {FilterValueType, TodoListsType} from "../App";
+import {FilterValueType, TodoListsType} from "../AppWithRedux";
 import {
     addTodolistAC,
     changeTodolistAC, changeTodolistFilterAC,

@@ -1,4 +1,4 @@
-import {createStore,combineReducers} from 'redux'
+import {legacy_createStore,combineReducers} from 'redux'
 import {todolistReducer} from "./store/todolist-reducer";
 import {tasksReducer} from "./store/tasks-reducer";
 
@@ -17,7 +17,7 @@ import {tasksReducer} from "./store/tasks-reducer";
 
 export type AppRootState = ReturnType<typeof rootReducer>
 // в этом случае redux сам создает тип в ходе анализа
-export const store = createStore(rootReducer);
+export const store = legacy_createStore(rootReducer);
 
 
 // @ts-ignore
