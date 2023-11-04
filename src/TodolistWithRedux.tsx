@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC} from 'react';
+import React, {ChangeEvent, FC, useCallback} from 'react';
 import {Button, Checkbox, IconButton, Paper} from "@material-ui/core";
 import {EditableSpan} from "./EditableSpan";
 import {Delete, Favorite, FavoriteBorder} from "@material-ui/icons";
@@ -14,9 +14,9 @@ import {TodoListsType} from "./AppWithRedux";
 export type TodolistWithReduxPropsType = {
     todolist: TodoListsType
 }
-const TodolistWithRedux: FC<TodolistWithReduxPropsType> = ({todolist}) => {
+const TodolistWithRedux: FC<TodolistWithReduxPropsType> = React.memo(({todolist}) => {
     const {id, title, filter} = todolist
-
+    console.log(todolist)
     let task = useSelector<AppRootState, Array<TaskType>>(state => state.tasks[id])
 
     const dispatch = useDispatch()
@@ -31,26 +31,26 @@ const TodolistWithRedux: FC<TodolistWithReduxPropsType> = ({todolist}) => {
         task = task.filter(t => t.isDone);
     }
 
-    const removeTodoListHandler = () => {
+    const removeTodoListHandler =useCallback( () => {
         dispatch(removeTodolistAC(id))
-    }
-    const addTask = (title: string) => {
+    },[dispatch])
+    const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(title, id))
-    }
-    const changeTodoListTitle = (title: string) => {
+    },[dispatch]);
+    const changeTodoListTitle = useCallback((title: string) => {
         dispatch(changeTodolistAC(id, title))
-    }
+    },[dispatch])
 
 
-    const onAllClickHandler = () => {
+    const onAllClickHandler =useCallback(() => {
         dispatch(changeTodolistFilterAC(id, "all"))
-    }
-    const onActiveClickHandler = () => {
+    },[dispatch])
+    const onActiveClickHandler =useCallback( () => {
         dispatch(changeTodolistFilterAC(id, "active"))
-    }
-    const onCompletedClickHandler = () => {
+    },[dispatch])
+    const onCompletedClickHandler =useCallback( () => {
         dispatch(changeTodolistFilterAC(id, "completed"))
-    }
+    },[dispatch])
 
 
     return (
@@ -108,7 +108,7 @@ const TodolistWithRedux: FC<TodolistWithReduxPropsType> = ({todolist}) => {
             </div>
         </Paper>
     )
-}
+})
 
 
 export default TodolistWithRedux;

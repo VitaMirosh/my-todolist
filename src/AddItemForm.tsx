@@ -1,4 +1,4 @@
-import { IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@material-ui/core";
 import React, {ChangeEvent, FC, KeyboardEvent, useState} from "react";
 import {ControlPoint} from "@material-ui/icons";
 
@@ -7,10 +7,11 @@ export type AddItemFormPropsType = {
     maxLenghtMessage: number
 }
 
-export const AddItemForm: FC<AddItemFormPropsType> = ({
+export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({
                                                           maxLenghtMessage,
                                                           addItem
                                                       }) => {
+
     const [newTaskTitle, setNewTaskTitle] = useState(" ")
     const [error, setError] = useState<string | null>('Title is reqired')
 
@@ -46,19 +47,19 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({
         {/*/>*/}
 
         <TextField
-                   value={newTaskTitle}
-                   variant={'outlined'}
-                   label={'Type value'}
-                   placeholder="Please, enter title"
-                   onChange={onNewTitleChangeHandler}
-                   onKeyDown={onKeyPressHandler}
-                   error={!!error}
-                   helperText={error}
+            value={newTaskTitle}
+            variant={'outlined'}
+            label={'Type value'}
+            placeholder="Please, enter title"
+            onChange={onNewTitleChangeHandler}
+            onKeyDown={onKeyPressHandler}
+            error={!!error}
+            helperText={error}
         />
-        <IconButton disabled={isAddBtnDisabled} onClick={addTask} color={'primary'} >
-            <ControlPoint />
+        <IconButton disabled={isAddBtnDisabled} onClick={addTask} color={'primary'}>
+            <ControlPoint/>
         </IconButton>
         {userMaxLenghtMessage}
 
     </div>
-}
+})

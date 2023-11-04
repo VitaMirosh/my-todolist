@@ -8,6 +8,7 @@ import {AppRootState} from "./store";
 import {addTodolistAC} from "./store/todolist-reducer";
 import TodolistWithRedux from "./TodolistWithRedux";
 import {TaskType} from "./Todolist";
+import {useCallback} from "react";
 
 export type FilterValueType = "all" | "active" | "completed";
 
@@ -26,18 +27,14 @@ function AppWithRedux() {
 
 
     const todoLists = useSelector<AppRootState, Array<TodoListsType>>(state => state.todolists)
-    // const task = useSelector<AppRootState, TasksStateType>(state => state.tasks)
     const dispatch = useDispatch()
 
 
-    // const changeCheckBox = (todoListId: string, taskID: string, newIsDone: boolean) => {
-    //     dispatch(changeTaskStatusAC(taskID, newIsDone, todoListId))
-    // }
 
 
-    function addTodoList(title: string) {
+    const addTodoList=useCallback((title: string) => {
         dispatch(addTodolistAC(title))
-    }
+    },[]);
 
     return (
         <div className="App">

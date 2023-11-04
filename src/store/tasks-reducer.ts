@@ -107,7 +107,6 @@ export const addTaskAC = (title: string, todolistId: string,): AddTaskActionType
 }
 
 export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: string): ChangeTaskStatusActionType => {
-    debugger
     return {type: 'CHANGE-TASK-STATUS', taskId, isDone, todolistId} as const
 }
 
