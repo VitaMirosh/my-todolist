@@ -11,8 +11,8 @@ type TaskPropsType={
     changeCheckBox: ( taskID: string, newIsDone: boolean) => void,
     changeTaskTitle: (id: string, newTitle: string) => void
 }
-export const Task = memo((props:TaskPropsType) => {
-    console.log('Task')
+ const Task = memo((props:TaskPropsType) => {
+
     const onClickHandlerRemoveTask = () => props.removeTask(props.task.id)
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked

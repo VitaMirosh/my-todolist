@@ -4,33 +4,38 @@ import s from "./Todolist.module.css";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete, Favorite, FavoriteBorder} from "@material-ui/icons";
 import {EditableSpan} from "./EditableSpan";
+import {useDispatch} from "react-redux";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./store/tasks-reducer";
 
 type TaskPropsType={
     task:TaskType,
-    removeTask: (taskId: string) => void,
-    changeCheckBox: ( taskID: string, newIsDone: boolean) => void,
-    changeTaskTitle: (id: string, newTitle: string) => void
+    todolistId:string
+
 }
-export const TaskWithRedux = memo((props:TaskPropsType) => {
+export const TaskWithRedux = memo(({task,todolistId}:TaskPropsType) => {
     console.log('Task')
-    const onClickHandlerRemoveTask = () => props.removeTask(props.task.id)
+
+    const dispatch=useDispatch()
+    const{id,title,isDone}=task
+
+    const onClickHandlerRemoveTask = () => dispatch(removeTaskAC(id,todolistId))
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-        props.changeCheckBox(props.task.id, newIsDoneValue)
+        dispatch(changeTaskStatusAC(id, newIsDoneValue, todolistId))
     }
     const onChangeTitleHandler = (newValue: string) => {
-        props.changeTaskTitle(props.task.id, newValue);
+        dispatch(changeTaskTitleAC(id, newValue, todolistId))
     }
 
-    return <div className={props.task.isDone ? s.isDoneStyle : ''}>
+    return <div className={isDone ? s.isDoneStyle : ''}>
         <IconButton
             color={"primary"}
             onClick={onClickHandlerRemoveTask}>
             <Delete/>
         </IconButton>
-        <Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} checked={props.task.isDone}
+        <Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} checked={isDone}
                   onChange={onChangeHandlerCheckBox}/>
-        <EditableSpan title={props.task.title}
+        <EditableSpan title={title}
                       onChange={onChangeTitleHandler}/>
 
     </div>

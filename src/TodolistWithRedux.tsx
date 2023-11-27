@@ -1,16 +1,16 @@
-import React, {ChangeEvent, FC, useCallback} from 'react';
-import {Button, Checkbox, IconButton, Paper} from "@material-ui/core";
+import React, {FC, memo, useCallback} from 'react';
+import {Button, IconButton, Paper} from "@material-ui/core";
 import {EditableSpan} from "./EditableSpan";
-import {Delete, Favorite, FavoriteBorder} from "@material-ui/icons";
+import {Delete} from "@material-ui/icons";
 import {AddItemForm} from "./AddItemForm";
-import s from "./Todolist.module.css";
+
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./store";
 import {TaskType} from "./Todolist";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./store/tasks-reducer";
+import {addTaskAC} from "./store/tasks-reducer";
 import {changeTodolistAC, changeTodolistFilterAC, removeTodolistAC} from "./store/todolist-reducer";
 import {TodoListsType} from "./AppWithRedux";
-import {Task} from "./Task";
+import {TaskWithRedux} from "./TaskWithRedux";
 
 export type TodolistWithReduxPropsType = {
     todolist: TodoListsType
@@ -53,13 +53,13 @@ const TodolistWithRedux: FC<TodolistWithReduxPropsType> = React.memo(({todolist}
         dispatch(changeTodolistFilterAC(id, "completed"))
     }, [dispatch])
 
-    const removeTask = useCallback((taskId: string) => dispatch(removeTaskAC(taskId, id)), [])
-    const changeCheckBox = useCallback((taskId: string, status: boolean) => {
-        dispatch(changeTaskStatusAC(taskId, status, id))
-    }, [])
-    const changeTaskTitle = useCallback((taskId: string, newValue: string) => {
-        dispatch(changeTaskTitleAC(taskId, newValue, id))
-    }, [])
+    // const removeTask = useCallback((taskId: string) => dispatch(removeTaskAC(taskId, id)), [])
+    // const changeCheckBox = useCallback((taskId: string, status: boolean) => {
+    //     dispatch(changeTaskStatusAC(taskId, status, id))
+    // }, [])
+    // const changeTaskTitle = useCallback((taskId: string, newValue: string) => {
+    //     dispatch(changeTaskTitleAC(taskId, newValue, id))
+    // }, [])
     return (
         <Paper>
             <div>
@@ -75,32 +75,54 @@ const TodolistWithRedux: FC<TodolistWithReduxPropsType> = React.memo(({todolist}
                 <ul>
                     {
                         task.map((t) => {
-                            return <Task
+                            return <TaskWithRedux
                                 key={t.id}
                                 task={t}
-                                removeTask={removeTask}
-                                changeCheckBox={changeCheckBox}
-                                changeTaskTitle={changeTaskTitle}
+                                todolistId={id}
                             />
                         })}
 
                 </ul>
-                <div>
-                    <Button
-                        variant={filter === 'all' ? 'contained' : 'text'} size={"small"}
-                        onClick={onAllClickHandler}>All</Button>
-                    <Button
+                <div style={{paddingTop: "10px"}}>
+                    <ButtonMemo
+                        variant={filter === 'all' ? 'outlined' : 'text'}
+                        onClick={onAllClickHandler}
                         color={'primary'}
-                        variant={filter === 'active' ? 'contained' : 'text'}
-                        onClick={onActiveClickHandler}>Active</Button>
-                    <Button color={'secondary'}
-                            variant={filter === 'completed' ? 'contained' : 'text'}
-                            onClick={onCompletedClickHandler}>Completed</Button>
+                        title={'All'}
+                    />
+                    <ButtonMemo
+                        variant={filter === 'active' ? 'outlined' : 'text'}
+                        onClick={onActiveClickHandler}
+                        color={'inherit'}
+                        title={'Active'}
+                    />
+                    <ButtonMemo
+                        variant={filter === 'completed' ? 'outlined' : 'text'}
+                        onClick={onCompletedClickHandler}
+                        color={'secondary'}
+                        title={'Completed'}
+                    />
                 </div>
             </div>
         </Paper>
     )
 })
 
+type ButtonMemoPropsType = {
+    title: string,
+    color: 'inherit' | 'primary' | 'secondary' | 'default'
+    variant: 'text' | 'outlined' | 'contained',
+    onClick: () => void
+}
 
+const ButtonMemo = memo((props: ButtonMemoPropsType) => {
+    console.log('Button')
+    return (
+        <Button
+            variant={props.variant}
+            onClick={props.onClick}
+            color={props.color}>{props.title}
+        </Button>
+    )
+})
 export default TodolistWithRedux;
