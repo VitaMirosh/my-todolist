@@ -10,7 +10,6 @@ export const EditableSpan: FC< EditablePropsType> = React.memo(({
     title,
     onChange
 }) =>{
-    console.log('editableSpan')
     let [editMode, setEditMode] = useState(false);
     let [localTitle, setLocalTitle] = useState("");
     const activateEditMode = () => {
